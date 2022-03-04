@@ -9,7 +9,7 @@ if [ ${additional_mb} -gt 0 ]; then
     dd if=/dev/zero bs=1M count=${additional_mb} >> ${image}
 fi
 
-loopdev=$(losetup --find --show --partscan ${image})
+loopdev=$(losetup --find --show --partscan --direct-io=on ${image})
 echo "Created loopback device ${loopdev}"
 echo "::set-output name=loopdev::${loopdev}"
 
