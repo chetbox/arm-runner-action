@@ -19,6 +19,29 @@ jobs:
           base_image: http://armbian.chi.auroradev.org/dl/uefi-x86/archive/Armbian_22.11.1_Uefi-x86_bullseye_current_5.15.80_minimal.img.xz
           bootpartition: ""
           rootpartition: 3
+          bind_mount_repository: true
+          use_systemd_nspawn: true
+          debug: false
+          shell: /bin/bash
+          commands: |
+            touch test.txt
+            test `uname -m` = 'x86_64'
+      - name: List partitions
+        run: sfdisk "${{ steps.build_image.outputs.image }}"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: x86.img
+          path: ${{ steps.build_image.outputs.image }}
+  build-and-resize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./ # pguyot/arm-runner-action@HEAD
+        id: build_image
+        with:
+          base_image: https://armbian.tnahosting.net/dl/uefi-x86/archive/Armbian_22.11.1_Uefi-x86_bullseye_current_5.15.80_xfce_desktop.img.xz
+          bootpartition: ""
+          rootpartition: 3
           image_additional_mb: 100
           bind_mount_repository: true
           use_systemd_nspawn: true
@@ -27,7 +50,9 @@ jobs:
           commands: |
             touch test.txt
             test `uname -m` = 'x86_64'
+      - name: List partitions
+        run: sfdisk "${{ steps.build_image.outputs.image }}"
       - uses: actions/upload-artifact@v2
         with:
-          name: x86.img
+          name: x86-resized.img
           path: ${{ steps.build_image.outputs.image }}
