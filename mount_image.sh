@@ -1,6 +1,8 @@
 #!/bin/bash
 set -uo pipefail
 
+set -x
+
 image=$1
 additional_mb=$2
 use_systemd_nspawn=$3
