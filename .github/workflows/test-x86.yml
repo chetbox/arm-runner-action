@@ -26,6 +26,7 @@ jobs:
           commands: |
             touch test.txt
             test `uname -m` = 'x86_64'
+            df -h --output=size /
             test $(df -h --output=size / | tail -n 1) = '3.3G'
       - name: List partitions
         run: sfdisk "${{ steps.build_image.outputs.image }}"
@@ -51,6 +52,7 @@ jobs:
           commands: |
             touch test.txt
             test `uname -m` = 'x86_64'
+            df -h --output=size /
             test $(df -h --output=size / | tail -n 1) = '3.5G'
       - name: List partitions
         run: sfdisk "${{ steps.build_image.outputs.image }}"
