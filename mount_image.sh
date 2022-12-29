@@ -12,6 +12,9 @@ else
     bootpartition=
 fi
 
+echo "Partition layout"
+sfdisk --list ${image}
+
 if [ ${additional_mb} -gt 0 ]; then
     dd if=/dev/zero bs=1M count=${additional_mb} >> ${image}
 fi
@@ -29,6 +32,9 @@ if [ ${additional_mb} -gt 0 ]; then
     resize2fs "${loopdev}p${rootpartition}"
     echo "Finished resizing disk image."
 fi
+
+echo "Partition layout"
+sfdisk --list ${image}
 
 waitForFile() {
     maxRetries=60
