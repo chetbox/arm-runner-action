@@ -27,7 +27,7 @@ jobs:
             touch test.txt
             test `uname -m` = 'x86_64'
             df -h --output=size /
-            test $(df -h --output=size / | tail -n 1) = '3.3G'
+            test $(df -h --output=size / | tail -n 1) = '3.0G'
       - name: List partitions
         run: sfdisk "${{ steps.build_image.outputs.image }}"
       - uses: actions/upload-artifact@v2
@@ -53,7 +53,7 @@ jobs:
             touch test.txt
             test `uname -m` = 'x86_64'
             df -h --output=size /
-            test $(df -h --output=size / | tail -n 1) = '3.5G'
+            test $(df -h --output=size / | tail -n 1) = '3.1G'
       - name: List partitions
         run: sfdisk "${{ steps.build_image.outputs.image }}"
       - uses: actions/upload-artifact@v2
