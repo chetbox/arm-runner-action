@@ -26,6 +26,7 @@ jobs:
           commands: |
             touch test.txt
             test `uname -m` = 'x86_64'
+            test $(df -h --output=size / | tail -n 1) = '3.3G'
       - name: List partitions
         run: sfdisk "${{ steps.build_image.outputs.image }}"
       - uses: actions/upload-artifact@v2
@@ -42,7 +43,7 @@ jobs:
           base_image: https://armbian.tnahosting.net/dl/uefi-x86/archive/Armbian_22.11.1_Uefi-x86_bullseye_current_5.15.80_xfce_desktop.img.xz
           bootpartition: ""
           rootpartition: 3
-          image_additional_mb: 100
+          image_additional_mb: 128
           bind_mount_repository: true
           use_systemd_nspawn: true
           debug: false
@@ -50,6 +51,7 @@ jobs:
           commands: |
             touch test.txt
             test `uname -m` = 'x86_64'
+            test $(df -h --output=size / | tail -n 1) = '3.5G'
       - name: List partitions
         run: sfdisk "${{ steps.build_image.outputs.image }}"
       - uses: actions/upload-artifact@v2
