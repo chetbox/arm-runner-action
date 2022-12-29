@@ -24,7 +24,11 @@ echo "Created loopback device ${loopdev}"
 echo "loopdev=${loopdev}" >> "$GITHUB_OUTPUT"
 
 if [ ${additional_mb} -gt 0 ]; then
+    echo "Partition info:"
+    parted --script $loopdev print || true
+
     if ( (parted --script $loopdev print || false) | grep "Partition Table: gpt" > /dev/null); then
+        echo "Fixing GPT partition table"
         sgdisk -e "${loopdev}"
     fi
     parted --script "${loopdev}" resizepart ${rootpartition} 100%
