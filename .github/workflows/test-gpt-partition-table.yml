@@ -27,6 +27,8 @@ jobs:
       - uses: ./ # pguyot/arm-runner-action@HEAD
         with:
           base_image: https://armbian.chi.auroradev.org/dl/uefi-x86/archive/Armbian_22.11.1_Uefi-x86_bullseye_current_5.15.80_minimal.img.xz
+          bootpartition: ""
+          rootpartition: 3
           image_additional_mb: 1024
           commands: |
             test $(df -h --output=size / | tail -n 1) = '4.0G'
